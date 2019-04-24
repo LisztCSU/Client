@@ -76,4 +76,18 @@
         android:layout_height="wrap_content"
         android:text="注册"
         android:enabled="false"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <CheckBox
+            android:id="@+id/recommended_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checked="true"/>
+        <TextView
+            android:text="将我推荐给附近的人"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </LinearLayout>

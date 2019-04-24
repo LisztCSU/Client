@@ -97,7 +97,7 @@ public class AccountActivity extends AppCompatActivity {
                             if (dataObj != null) {
 
                                 mobile = dataObj.optString("mobile", "");
-                                nickname = dataObj.optString("nickName", "");
+                                nickname = dataObj.optString("nickname", "");
                                 username = dataObj.optString("username", "");
                                 SharedPreferences.Editor eidtor = sharedPreferences.edit();
                                 eidtor.putString("nickname", nickname);

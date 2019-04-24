@@ -106,6 +106,7 @@ public class MovieListAdapter extends SimpleAdapter {
                         int code = obj.optInt("code");
                         if (code == 1) {
                             Intent intent = new Intent(mcontext, MapActivity.class);
+                            intent.putExtra("mid",mid);
                             mcontext.startActivity(intent);
                         } else if (code == 0) {
                             Toast.makeText(mcontext, "操作失败", Toast.LENGTH_LONG).show();

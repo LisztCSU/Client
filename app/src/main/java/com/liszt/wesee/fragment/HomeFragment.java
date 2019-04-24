@@ -50,13 +50,10 @@ public class HomeFragment extends Fragment{
     private View rootView;
     private ListView listview;
     private Context mContext;
-    URL myFileUrl = null;
-    Bitmap bitmap = null;
     private List<movieListBean> myBeanList= new ArrayList<>();
     private MovieListAdapter adapter;
     private static final String from[] ={"img","title","info","mate","wantaccount"};
     List<Map<String, Object>> dataList = new ArrayList<>();
-    Button gotoMap;
     private static HomeFragment homeFragment;
     public HomeFragment(){}
     public static HomeFragment getNewInstance(){

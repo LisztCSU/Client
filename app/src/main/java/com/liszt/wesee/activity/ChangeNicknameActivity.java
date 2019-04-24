@@ -62,7 +62,7 @@ public class ChangeNicknameActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            EasyHttp.get("user/changeNickname").params("uid", uid).params("nick", nickname).execute(new SimpleCallBack<String>() {
+            EasyHttp.get("user/changeNickname").params("uid", uid).params("nickname", nickname).execute(new SimpleCallBack<String>() {
                 @Override
                 public void onError(ApiException e) {
                     Toast.makeText(ChangeNicknameActivity.this, "请求失败", Toast.LENGTH_LONG).show();

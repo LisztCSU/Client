@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,19 +30,17 @@ import watchers.emptyWatcher;
 import watchers.mobileWatcher;
 
 public class RegisterActivity extends AppCompatActivity {
-    private static final int TYPE_MSG_ERROR = 0;
-    private static final int TYPE_MSG_SUCCESS = 1;
     final MyCountDownTimer myCountDownTimer = new MyCountDownTimer(60000, 1000);
     EditText mobile;
     EditText account;
     EditText password;
     EditText confirmPassword;
     EditText vcode;
-    EditText editTextList[];
-    EditText editTextList2[];
+    CheckBox recommend;
     Button register;
     Button sendVcode;
     String encoderules;
+    String recommendAccpet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
         confirmPassword = (EditText) findViewById(R.id.conformPassword);
         vcode = (EditText) findViewById(R.id.vcode);
         sendVcode = (Button) findViewById(R.id.sendVcode);
+        recommend = (CheckBox) findViewById(R.id.recommended_accept);
         register = (Button) findViewById(R.id.register);
         EditText editTextList[] = {mobile, account, password, confirmPassword, vcode};
         Button buttonList[] = {register};
@@ -69,12 +70,24 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         encoderules = getResources().getString(R.string.encoderules);
+        recommendAccpet = "1";
+        recommend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    recommendAccpet = "1";
+                }
+                else {
+                    recommendAccpet = "0";
+                }
+            }
+        });
         register.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                new RegisterActivity.MyThread(account.getText().toString(), AESencrypt.AESEncode(password.getText().toString(), encoderules), AESencrypt.AESEncode(confirmPassword.getText().toString(), encoderules), vcode.getText().toString()).start();
+                new RegisterActivity.MyThread(account.getText().toString(), AESencrypt.AESEncode(password.getText().toString(), encoderules), AESencrypt.AESEncode(confirmPassword.getText().toString(), encoderules), vcode.getText().toString(),recommendAccpet).start();
 //                String str = AESencrypt.AESEncode(password.getText().toString(),encoderules);
 //                String str2 = AESencrypt.AESDncode(str,encoderules);
 //                Log.v("jiami:",str);
@@ -89,18 +102,20 @@ public class RegisterActivity extends AppCompatActivity {
             private String password;
             private String confirmPassword;
             private String vcode;
+            private String recommendedAccept;
 
-            public MyThread(String username, String passsword, String confirmPassword, String vcode) {
+            public MyThread(String username, String passsword, String confirmPassword, String vcode, String recommendedAccept) {
 
                 this.username = username;
                 this.password = passsword;
                 this.confirmPassword = confirmPassword;
                 this.vcode = vcode;
+                this.recommendedAccept = recommendedAccept;
             }
 
             @Override
             public void run() {
-                EasyHttp.get("user/register").params("username", username).params("password", password).params("confirmPassword", confirmPassword).params("vcode", vcode).execute(new SimpleCallBack<String>() {
+                EasyHttp.get("user/register").params("username", username).params("password", password).params("confirmPassword", confirmPassword).params("vcode", vcode).params("recommendedAccept",recommendedAccept).execute(new SimpleCallBack<String>() {
                     @Override
                     public void onError(ApiException e) {
                         Toast.makeText(RegisterActivity.this, "请求失败", Toast.LENGTH_LONG).show();
