@@ -73,8 +73,9 @@ public class MapActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences("Cookies_Prefs",MODE_PRIVATE);
         uid = sharedPreferences.getString("uid","0");
-        Intent intent = getIntent();
-        mid = intent.getStringExtra("mid");
+
+
+
         setContentView(R.layout.activity_map);
         mMapView = (MapView) findViewById(R.id.bmapView);
         mBaiduMap = mMapView.getMap();
@@ -114,6 +115,7 @@ public class MapActivity extends AppCompatActivity {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mid = sharedPreferences.getString("mid","0");
                 MyThread2 thread = new  MapActivity.MyThread2(uid,mid);
                 thread.start();
 
@@ -127,7 +129,7 @@ public class MapActivity extends AppCompatActivity {
 
         }
     public void initDataList(List<Map<String,Object>> list,List<nearbyListBean> beanList){
-        dataList.clear();
+
         for(nearbyListBean bean : beanList){
             Map<String,Object> map = new HashMap<>();
 
@@ -281,6 +283,7 @@ public class MapActivity extends AppCompatActivity {
                        if (code == 1) {
                            Toast.makeText(MapActivity.this, "刷新列表成功", Toast.LENGTH_LONG).show();
                            myBeanList.clear();
+                           dataList.clear();
                            JSONArray dataObj = obj.getJSONArray("dataList");
                            if (dataObj != null) {
                                int size = dataObj.length();

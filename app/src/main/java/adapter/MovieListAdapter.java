@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -57,10 +58,12 @@ public class MovieListAdapter extends SimpleAdapter {
         mate.setEnabled(true);
         uid = sharedPreferences.getString("uid", "0");
         mid = map.get("mate").toString();
+        mate.setTag(mid);
         mate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new MyThread(uid, mid).start();
+                new MyThread(uid,v.getTag().toString()).start();
+                sharedPreferences.edit().putString("mid",v.getTag().toString()).apply();
 
             }
         });
@@ -93,7 +96,7 @@ public class MovieListAdapter extends SimpleAdapter {
 
         @Override
         public void run() {
-            EasyHttp.get("wantTosee/add").params("uid", uid).params("mid", mid).execute(new SimpleCallBack<String>() {
+            EasyHttp.get("mate/wantTosee").params("uid", uid).params("mid", mid).execute(new SimpleCallBack<String>() {
                 @Override
                 public void onError(ApiException e) {
                     Toast.makeText(mcontext, "操作失败", Toast.LENGTH_LONG).show();
@@ -106,7 +109,7 @@ public class MovieListAdapter extends SimpleAdapter {
                         int code = obj.optInt("code");
                         if (code == 1) {
                             Intent intent = new Intent(mcontext, MapActivity.class);
-                            intent.putExtra("mid",mid);
+                            //sharedPreferences.edit().putString("mid",mid).apply();
                             mcontext.startActivity(intent);
                         } else if (code == 0) {
                             Toast.makeText(mcontext, "操作失败", Toast.LENGTH_LONG).show();

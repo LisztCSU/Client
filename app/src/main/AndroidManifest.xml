@@ -77,7 +77,9 @@
             android:process=":remote" />
 
         <activity android:name=".activity.MapActivity" />
-        <activity android:name=".activity.TestActivity"></activity>
+        <activity android:name=".activity.TestActivity" />
+        <activity android:name=".activity.SettingActivity"
+                   android:label="设置"/>
     </application>
 
 </manifest>
